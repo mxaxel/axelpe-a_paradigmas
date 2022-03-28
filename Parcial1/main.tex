@@ -1,0 +1,251 @@
+\documentclass[12pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{graphicx} % Allows you to insert figures
+\usepackage{amsmath} % Allows you to do equations
+\usepackage{fancyhdr} % Formats the header
+\usepackage{geometry} % Formats the paper size, orientation, and margins
+\linespread{1.25} % about 1.5 spacing in Word
+\setlength{\parindent}{0pt} % no paragraph indents
+\setlength{\parskip}{1em} % paragraphs separated by one line
+\usepackage[style=authoryear-ibid,backend=biber,maxbibnames=99,maxcitenames=2,uniquelist=false,isbn=false,url=true,eprint=false,doi=true,giveninits=true,uniquename=init]{biblatex} % Allows you to do citations - does Harvard style and compatible with Zotero
+\urlstyle{same} % makes a nicer URL and DOI font 
+\AtEveryBibitem{
+    \clearfield{urlyear}
+    \clearfield{urlmonth}
+} % removes access date
+\AtEveryBibitem{\clearfield{month}} % removes months in bibliography
+\AtEveryCitekey{\clearfield{month}} % removes months in citations
+\renewbibmacro{in:}{} % Removes the "In" before journal names
+
+\renewbibmacro*{editorstrg}{%from biblatex.def
+  \printtext[editortype]{%
+    \iffieldundef{editortype}
+      {\ifboolexpr{
+         test {\ifnumgreater{\value{editor}}{1}}
+         or
+         test {\ifandothers{editor}}
+       }
+         {\bibcpstring{editors}}
+         {\bibcpstring{editor}}}
+      {\ifbibxstring{\thefield{editortype}}
+         {\ifboolexpr{
+            test {\ifnumgreater{\value{editor}}{1}}
+            or
+            test {\ifandothers{editor}}
+          }
+            {\bibcpstring{\thefield{editortype}s}}%changed
+            {\bibcpstring{\thefield{editortype}}}}%changed
+         {\thefield{editortype}}}}}
+
+\renewbibmacro*{byeditor+others}{%from biblatex.def
+  \ifnameundef{editor}
+    {}
+    {\printnames[byeditor]{editor}%
+     \addspace%added
+     \mkbibparens{\usebibmacro{editorstrg}}%added
+     \clearname{editor}%
+     \newunit}%
+  \usebibmacro{byeditorx}%
+  \usebibmacro{bytranslator+others}}
+  % The commands above from lines 20-49 change the way editors are displayed in books
+\AtEveryBibitem{%
+  \clearlist{language}%
+} % removes language from bibliography
+\citetrackerfalse 
+% Removes ibids (ibidems)
+\DeclareNameAlias{sortname}{family-given} % Ensures the names of the authors after the first author are in the correct order in the bibliography
+\renewcommand*{\revsdnamepunct}{} % Corrects punctuation for authors with just a first initial
+\addbibresource{Example.bib} % Tells LaTeX where the citations are coming from. This is imported from Zotero
+\usepackage[format=plain,
+            font=it]{caption} % Italicizes figure captions
+\usepackage[english]{babel}
+\usepackage{csquotes}
+\renewcommand*{\nameyeardelim}{\addcomma\space} % Adds comma in in-text citations
+\renewcommand{\headrulewidth}{0pt}
+\geometry{letterpaper, portrait, margin=1in}
+\setlength{\headheight}{14.49998pt}
+
+\newcommand\titleofdoc{Title of Document} %%%%% Put your document title in this argument
+\newcommand\GroupName{Group Name} %%%%% Put your group name here. If you are the only member of the group, just put your name
+
+\begin{document}
+\begin{titlepage}
+   \begin{center}
+        \vspace*{2 cm} % Adjust spacings to ensure the title page is generally filled with text
+
+        \Huge{Universidad Veracruzana} 
+        \vspace{0.25 cm}
+        
+        \begin{figure}[h]
+        \centering
+        \includegraphics[width=3.5cm]{1200px-Logo_de_la_Universidad_Veracruzana.svg.png}
+        \end{figure}
+        
+        \LARGE{Ingeniería de Software}
+        \vspace{0.25 cm}
+        \Large{}
+        
+        \Large{Reporte Técnico}
+        \vspace{0.25 cm}
+        \Large{}
+       
+        \vspace{0.25cm}
+        \Large{Paradigmas de Programación}
+       
+        \vspace{0.25 cm}
+        \Large{Axel Gustavo Peña Sánchez}
+        
+        \vspace{0.25 cm}
+        \Large{17 de marzo de 2022}
+       
+       \vspace{0.25 cm}
+       \Large{Prof. Adolfo Centeno Tellez}
+
+       \vfill
+    \end{center}
+\end{titlepage}
+
+\setcounter{page}{2}
+\pagestyle{fancy}
+\fancyhf{}
+\rhead{\thepage}
+
+
+\section*{\Huge{Introducción}} 
+
+Este reporte técnico nos habla sobre la red de Hopfield, utilizada para reconocer distintos patrones, nos muestra que es y cómo funciona. En principio comenzaremos por entender realmente: 
+
+\subsection*{\LARGE{¿Que es una Red Neuronal?}}
+
+Una red neuronal es un modelo de computación cuya estructura de capas se asemeja a la estructura interconectada de las neuronas en el cerebro, con capas de nodos conectados. Una red neuronal puede aprender de los datos, de manera que se puede entrenar para que reconozca patrones, clasifique datos y pronostique eventos futuros.
+
+Las redes neuronales descomponen las entradas en capas de abstracción. Se pueden entrenar con muchos ejemplos para que reconozcan patrones de voz o en imágenes, por ejemplo, igual que el cerebro humano. Su comportamiento está definido por la forma en que se conectan sus elementos individuales, así como por la importancia (o ponderación) de dichas conexiones. Estas ponderaciones se ajustan automáticamente durante el entrenamiento de acuerdo con una regla de aprendizaje especificada hasta que la red neuronal lleva a cabo la tarea deseada correctamente.
+
+Las redes neuronales resultan especialmente adecuadas para llevar a cabo el reconocimiento de patrones a fin de identificar y clasificar objetos o señales en sistemas de voz, visión y control. También se pueden emplear para el modelado y la predicción de series temporales.
+
+Algunos ejemplos de la aplicación de una red neuronal son:
+
+•	Las compañías eléctricas pronostican la carga de sus redes con precisión para garantizar la fiabilidad y optimizar la eficiencia de los generadores eléctricos que utilizan.
+
+•	Los cajeros automáticos pueden aceptar depósitos bancarios de forma fiable mediante la lectura del número de cuenta y del importe del depósito en un cheque.
+
+•	Los patólogos confían en aplicaciones de detección de cáncer como guía a la hora de clasificar los tumores como benignos o malignos en función de la uniformidad del tamaño de las células, el grosor de la masa, la mitosis y otros factores.
+
+\section*{\Huge{Desarrollo}}
+
+\subsection*{\LARGE{Red neuronal de Hopfield}}
+Es Modelo construido en 1982 por el físico norteamericano J. Hopfield, descrito en el artículo titulado “Redes neuronales y sistemas físicos con habilidades computacionales colectivas emergentes”, éste modelo fue construido con el número suficiente de simplificaciones como para extraer analíticamente información sobre las características relevantes del sistema, conservando las ideas fundamentales de las redes construidas en el pasado y presentando una serie de funciones básicas de los sistemas neuronales reales. Además, Hopfield supo establecer un paralelismo lo cual ha permitido aplicar todo un conjunto de técnicas bien conocidas en este campo y, con ello, producir un avance en la comprensión del funcionamiento de las redes neuronales.
+
+Con su aporte, Hopfield redescubrió el mundo casi olvidado de las redes auto asociativas, caracterizadas por una nueva arquitectura y un nuevo funcionamiento, a las que se tuvo que añadir otro tipo de reglas de aprendizaje. Las consecuencias fueron redes con un comportamiento diferente a las diseñadas con estructura progresiva hacia adelante.
+
+Debido a la arquitectura y al funcionamiento, la red de Hopfield se puede incluir dentro de las redes de neuronas recurrentes, pues cada neurona está conectada con todas las demás y además se produce un procesamiento temporal de los patrones. Lo que diferencia a esta red de las demás redes recurrentes es que actúa a la manera de una memoria asociativa. El concepto de memoria asociativa es bastante intuitivo: se trata simplemente de asociar dos patrones. Dentro de este concepto definiremos diferentes tipos de memorias asociativas:
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=10.3 cm]{memorias_asociativas.png}
+\end{figure}
+
+\subsection*{\LARGE{¿Cómo funciona?}}
+
+Se trata de una red auto asociativa. Por tanto, informaciones diferentes (patrones) pueden ser almacenadas en la red, como si de una memoria se tratase, durante la etapa de aprendizaje. Posteriormente, cuando se presenta una entrada a la red, esta evoluciona hasta generar una salida que coincidirá con la que corresponde a esa entrada, o bien la más parecida si la entrada está distorsionada o incompleta.
+
+La información que recibe la red debe haber sido previamente codificada y representada en forma de vector (como una configuración binaria o como un conjunto de valores reales dependiendo de si la red es discreta o contínua) con tantas componentes como neuronas (N) tenga la red. Cada neurona recibe un elemento del vector.
+Centrándonos en una sola neurona el funcionamiento sería el siguiente:
+
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=10.3 cm]{patron.png}
+\end{figure}
+
+1.	Recibe como entrada la salida de cada una de las otras neuronas (por las conexiones laterales). Estos valores de salida, inicialmente coinciden con las entradas del vector, multiplicadas por los pesos de las conexiones correspondientes. La suma de todos estos valores constituirá el valor de entrada neta de la neurona a la que hay que aplicarle la función de transferencia obteniéndose el valor de salida correspondiente. En el instante inicial (t=0) la información de entrada es (e1, e2, ...eN)
+
+\begin{center}
+si(t=0) = ei 1 menor o igual a i menor o igual a N
+
+si(t+1) = f (Sum wij sj(t) - 0i) 1 menor o igual a i menor o igual a N
+\end{center}
+		
+2.	Este proceso continúa hasta que las salidas de las neuronas se estabilizan, alcanzan la convergencia, durante algunas iteraciones.
+
+\begin{center}
+    si(t+1) = si(t)
+\end{center}
+
+La red Hopfield continua, con funciones de activación de tipo sigmoidal, ofrece más posibilidades que la discreta ya que permite almacenar patrones formados por valores reales (por ejemplo, imágenes en color o en blanco y negro con diferentes tonalidades de grises).
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=10.3 cm]{rna_hopfield.png}
+\end{figure}
+
+\subsection*{\LARGE{Programa}}
+
+El programa o el código funciona de la misma manera que fue explicado anteriormente, se asignan vectores, los cuales deben contener un patrón diferente cada uno, estos pueden ser figuras, números, vocales, símbolos, etc. Para explicarlo más a detalle, el funcionamiento se compone de dos fases:
+
+\subsection*{\large{Fase de almacenamiento}}
+
+Sea el conjunto de n patrones que se desea almacenar, donde cada patrón es un vector n-dimensional cuyas componentes toman valores binarios, es decir -1 ó 1. Para almacenar patrones, el peso de la conexión de la neurona j a la i viene dado por: 
+
+\pagebreak
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=8.3 cm]{ecuación_hebb.png}
+\end{figure}
+
+Esta ecuación cumple la regla de Hebb, pues si xi(k) y xj (k) son iguales el peso de la conexión de i a j se incrementa en una unidad, mientras que si son distintas se reducen en la misma cantidad.
+
+\subsection*{\large{Fase de recuperación}}
+Sea x = (x1, x2, . . . , xn) un patrón de prueba diferente de los patrones almacenados en la fase anterior. Dicho patrón representa generalmente una versión de uno de los vectores x(k) almacenados pero con información incompleta o al que se le a incluido ruido. En esta fase la red de Hopfield recuperará el patrón almacenado más próximo a x. El procedimiento seguido será el siguiente: 
+
+Paso 1. Se inicializan los estados de las n neuronas de la red utilizando el patrón 
+
+\begin{center}
+    x: si(0) = xi para i = 1, 2, . . . , n
+\end{center}
+
+Paso 2. Se espera a que la red alcance un estado estable o punto fijo, entendiendo por tal aquel en el que el estado de los elementos de la red permanezca invariante en el tiempo:
+
+\begin{center}
+    si(t + 1) = si(t) Ai = 1, 2, . . . , n
+\end{center}
+
+\pagebreak
+
+\subsection*{\large{Red Neuronal en Matlab}}
+
+Esta red neuronal consiste en reconocer patrones de signos de puntuación, el tamaño de la matriz utilizada es de 9x12, los patrones a reconocer son los siguientes:
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=16.3 cm]{Patrones1.png}
+\end{figure}
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=16.3 cm]{Patrones2.png}
+\end{figure}
+
+Convertidos en un solo vector con los valores 1 y -1, los patrones se buscaran de la siguiente manera:
+
+Signo de interrogacion = [\- -1 -1 1 1 1 1 1 -1 -1 -1 1 1 1 1 1 1 1 -1 -1 1 1 -1 -1 -1 -1 1 1 -1 1 1 -1 -1 -1 -1 1 1 -1 1 1 -1 -1 -1 -1 1 1 -1 -1 -1 -1 -1 -1 1 1 -1 -1 -1 -1 -1 -1 1 1 -1 -1 -1 -1 -1 -1 1 1 -1 -1 -1 -1 -1 -1 1 1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 1 1 -1 -1 -1 -1 -1 -1 -1 1 1 -1 -1 -1 -1];
+
+Corchete = [\- 1 1 1 1 1 1 1 1 -1 1 -1 -1 -1 -1 -1 -1 1 -1 1 -1 -1 -1 -1 -1 -1 -1 -1 1 -1 -1 -1 -1 -1 -1 -1 -1 1 -1 -1 -1 -1 -1 -1 -1 -1 1 -1 -1 -1 -1 -1 -1 -1 -1 1 -1 -1 -1 -1 -1 -1 -1 -1 1 -1 -1 -1 -1 -1 -1 -1 -1 1 -1 -1 -1 -1 -1 -1 -1 -1 1 -1 -1 -1 -1 -1 -1 -1 -1 1 -1 -1 -1 -1 -1 -1 1 -1 1 1 1 1 1 1 1 1 -1];
+
+Llave = [\- -1 -1 1 1 1 1 1 1 -1 -1 -1 1 1 1 1 1 1 -1 -1 -1 -1 -1 -1 -1 1 1 -1 -1 -1 -1 -1 -1 -1 1 1 -1 -1 -1 -1 -1 -1 -1 1 1 -1 -1 -1 -1 -1 -1 -1 -1 1 1 -1 -1 -1 -1 -1 -1 -1 1 1 -1 -1 -1 -1 -1 -1 1 1 -1 -1 -1 -1 -1 -1 -1 1 1 -1 -1 -1 -1 -1 -1 -1 1 1 -1 -1 -1 1 1 1 1 1 1 -1 -1 -1 1 1 1 1 1 1 -1];
+
+Diagonal = [\- 1 1 1 -1 -1 -1 -1 -1 -1 1 1 1 -1 -1 -1 -1 -1 -1 -1 1 1 1 -1 -1 -1 -1 -1 -1 1 1 1 -1 -1 -1 -1 -1 -1 -1 1 1 1 -1 -1 -1 -1 -1 -1 1 1 1 -1 -1 -1 -1 -1 -1 -1 1 1 1 -1 -1 -1 -1 -1 -1 1 1 1 -1 -1 -1 -1 -1 -1 -1 1 1 1 -1 -1 -1 -1 -1 -1 1 1 1 -1 -1 -1 -1 -1 -1 -1 1 1 1 -1 -1 -1 -1 -1 -1 1 1 1 -1];
+
+Comillas = [\- -1 1 1 1 -1 -1 1 1 1 1 1 1 -1 -1 1 1 1 -1 1 1 1 -1 -1 1 1 1 -1 1 1 1 -1 -1 1 1 1 -1 1 1 1 -1 -1 1 1 1 -1 1 1 1 -1 -1 1 1 1 -1 1 1 1 -1 -1 1 1 1 -1 1 1 1 -1 -1 1 1 1 -1 1 1 1 -1 -1 1 1 1 -1 -1 1 1 1 -1 -1 1 1 1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1];
+
+Punto y coma = [\- -1 -1 -1 1 1 1 -1 -1 -1 -1 -1 1 1 1 1 1 -1 -1 -1 -1 1 1 1 1 1 -1 -1 -1 -1 1 1 1 1 1 -1 -1 -1 -1 -1 1 1 1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 1 1 1 -1 -1 -1 -1 -1 1 1 1 1 1 -1 -1 -1 -1 1 1 1 1 1 -1 -1 -1 -1 1 1 1 1 -1 -1 -1 -1 -1 1 1 1 -1 -1 -1 -1 -1 -1 1 -1 -1 -1 -1 -1 -1];
+
+\pagebreak
+
+\section*{\Huge{Conclusión}}
+
+Finalmente, para concluir con este reporte, yo considero que este tema en general es de suma importancia, debido a que una red neuronal puede ser aplicada para muchas cosas e investigaciones o problemas complejos que pueden solucionarse con esto, aunque debemos dejar claro que no todos los problemas con un alto nivel de complejidad podrían resolverse, debemos tomar en cuenta todos los factores que influyen al momento de utilizar una red neuronal o llevar a cabo una investigación mediante patrones, esto nos puede ser muy útil para encontrar secuencias en alguna cadena, en el campo de la medicina podría resultar muy útil trabajar con redes neuronales que aprendan o memoricen imágenes de alguna radiografía o rayos x, esto puede sonar muy complejo pero actualmente ya existe, lo que quiere decir que la aplicación de las redes neuronales va aumentando gracias a los avances tecnológicos y principalmente para facilitar este tipo de análisis o investigaciones.
+
+
+\end{document}
